@@ -1,3 +1,4 @@
+using AuthAPI.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +16,14 @@ namespace AuthAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+
+            // Add Scopes to services
+            builder.Services.AddScoped<ILoginRepository, LoginRepository>(); 
+            builder.Services.AddScoped<IRegisterRepository, RegisterRepository>(); 
+            builder.Services.AddScoped<IRegisterAdminRepository, RegisterAdminRepository>(); 
+            builder.Services.AddScoped<ITokenManager, TokenManager>();
+
 
             // Add JwtAuthentication to services
             builder.Services.AddAuthentication(options =>
@@ -28,8 +35,8 @@ namespace AuthAPI
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = "",
