@@ -1,6 +1,10 @@
+
+using AuthAPI.DbContext;
 using AuthAPI.Repositories;
+using AuthAPI.Repositories.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,10 +23,7 @@ namespace AuthAPI
             builder.Services.AddControllers();
 
             // Add Scopes to services
-            builder.Services.AddScoped<ILoginRepository, LoginRepository>(); 
-            builder.Services.AddScoped<IRegisterRepository, RegisterRepository>(); 
-            builder.Services.AddScoped<IRegisterAdminRepository, RegisterAdminRepository>(); 
-            builder.Services.AddScoped<ITokenManager, TokenManager>();
+            builder.Services.AddScoped<IAuthRepository, AuthRepository>(); 
 
 
             // Add JwtAuthentication to services
@@ -46,8 +47,12 @@ namespace AuthAPI
             });
 
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            builder.Services.AddDbContext<AuthDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AuthDbContext>()
+                .AddDefaultTokenProviders();
 
 
             var app = builder.Build();

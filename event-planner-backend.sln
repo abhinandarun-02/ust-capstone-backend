@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35201.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthAPI", "AuthAPI\AuthAPI.csproj", "{087F8D48-5F34-4897-B94F-AEE6B8C94147}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthAPI", "AuthAPI\AuthAPI.csproj", "{087F8D48-5F34-4897-B94F-AEE6B8C94147}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F3DA97EE-D3F0-4483-B7A0-4C025ED39E39}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{C5FA0B88-8598-4872-9FC0-EECD40F9DB0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +22,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{087F8D48-5F34-4897-B94F-AEE6B8C94147} = {C5FA0B88-8598-4872-9FC0-EECD40F9DB0B}
+		{C5FA0B88-8598-4872-9FC0-EECD40F9DB0B} = {F3DA97EE-D3F0-4483-B7A0-4C025ED39E39}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6011BA02-AEF1-4544-BE68-F3E275419228}
