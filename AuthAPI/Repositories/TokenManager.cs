@@ -37,8 +37,8 @@ namespace AuthAPI.Repositories
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, loginModel.Username),
-                new Claim(ClaimTypes.Role, admin != null ? "Admin" : "Planner"),
-                new Claim("UserId", (admin?.Id ?? planner?.Id).ToString())
+                new Claim(ClaimTypes.Role, admin != null ? "admin" : "planner"),
+                new Claim(ClaimTypes.NameIdentifier, (admin?.Id ?? planner?.Id).ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
