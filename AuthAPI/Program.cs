@@ -1,6 +1,10 @@
+
+using AuthAPI.DbContext;
 using AuthAPI.Repositories;
+using AuthAPI.Repositories.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,40 +19,46 @@ namespace AuthAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Add controllers to the services collection.
             builder.Services.AddControllers();
 
-            // Add Scopes to services
-            builder.Services.AddScoped<ILoginRepository, LoginRepository>(); 
-            builder.Services.AddScoped<IRegisterRepository, RegisterRepository>(); 
-            builder.Services.AddScoped<IRegisterAdminRepository, RegisterAdminRepository>(); 
-            builder.Services.AddScoped<ITokenManager, TokenManager>();
+            // Add the AuthRepository as a scoped service.
+            builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
+            // Add the AuthDbContext to the services collection.
+            builder.Services.AddDbContext<AuthDbContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Add JwtAuthentication to services
-            builder.Services.AddAuthentication(options =>
+            // Add Identity services to the services collection.
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AuthDbContext>()
+                .AddDefaultTokenProviders();
+
+            // Get the configuration from the builder.
+            var config = builder.Configuration;
+
+            // Add authentication services to the services collection.
+            builder.Services.AddAuthentication(option =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(options =>
+            .AddJwtBearer(jwtOption =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
+                var key = config.GetValue<string>("JWT:Secret");
+                var keyBytes = Encoding.UTF8.GetBytes(key);
+                jwtOption.SaveToken = true;
+                jwtOption.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
                     ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = "",
-                    ValidAudience = "",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+                    ValidateAudience = false,
+                    ValidateIssuer = false
                 };
             });
 
-
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+            // Add authorization services to the services collection.
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
@@ -56,7 +66,6 @@ namespace AuthAPI
 
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 
