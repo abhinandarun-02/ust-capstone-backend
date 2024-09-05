@@ -23,7 +23,7 @@ namespace AuthAPI
             builder.Services.AddControllers();
 
             // Add Scopes to services
-            builder.Services.AddScoped<IAuthRepository, AuthRepository>(); 
+            builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 
             // Add JwtAuthentication to services
@@ -48,7 +48,7 @@ namespace AuthAPI
 
 
             builder.Services.AddDbContext<AuthDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>()
