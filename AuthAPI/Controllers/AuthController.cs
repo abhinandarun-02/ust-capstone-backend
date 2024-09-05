@@ -1,9 +1,7 @@
 ﻿using AuthAPI.AppConstants;
 using AuthAPI.DTO;
 using AuthAPI.Models;
-using AuthAPI.Repositories;
 using AuthAPI.Repositories.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -51,11 +49,5 @@ namespace AuthAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        [HttpGet("helloworld")]
-        [Authorize]
-        public IActionResult HelloWorld()
-        {
-            return Ok("Hello World! You are authenticated.");
-        }
     }
 }
