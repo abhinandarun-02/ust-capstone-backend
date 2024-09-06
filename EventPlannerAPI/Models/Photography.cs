@@ -11,6 +11,5 @@ public class Photography
     public required string Tier { get; set; }
     public required string Contact { get; set; }
     public required string PackageDetails { get; set; }
-
 }
 

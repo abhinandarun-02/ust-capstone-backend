@@ -1,7 +1,4 @@
-using System;
-
 namespace EventPlannerAPI.Models;
-
 public class Catering
 {
     public required string Id { get; set; }
