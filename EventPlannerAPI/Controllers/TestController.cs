@@ -25,6 +25,7 @@ namespace EventPlannerAPI.Controllers
         {
             var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var roles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+            var userName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
             if (email == null)
             {
@@ -33,6 +34,7 @@ namespace EventPlannerAPI.Controllers
 
             var userInfo = new
             {
+                Name = userName,
                 Email = email,
                 Roles = roles
             };
