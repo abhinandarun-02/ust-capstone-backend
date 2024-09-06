@@ -4,17 +4,16 @@ namespace EventPlannerAPI.Models;
 
 public class Wedding
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
+    public required string Id { get; set; }
+    public required string Name { get; set; }
     public DateTime Date { get; set; }
     public int GuestCount { get; set; }
-    public string Location { get; set; }
+    public required string Location { get; set; }
+    public required string PlannerUsername { get; set; }
 
     // Foreign Keys
-    public int PlannerId { get; set; }
-    public int BookingId { get; set; }
+    public required string BookingId { get; set; }
 
     // Navigation Properties
-    public Planner Planner { get; set; }
-    public Booking Booking { get; set; }
+    public required Booking Booking { get; set; }
 }

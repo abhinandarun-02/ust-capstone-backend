@@ -4,13 +4,13 @@ namespace EventPlannerAPI.Models;
 
 public class Catering
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
+    public required string Id { get; set; }
+    public required string Name { get; set; }
     public decimal Price { get; set; }
-    public string Location { get; set; }
-    public string About { get; set; }
+    public required string Location { get; set; }
+    public required string About { get; set; }
     public decimal Rating { get; set; }
-    public string Tier { get; set; }
-    public string Contact { get; set; }
-    public string MenuDetails { get; set; }
+    public required string Tier { get; set; }
+    public required string Contact { get; set; }
+    public required string MenuDetails { get; set; }
 }

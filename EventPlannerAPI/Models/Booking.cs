@@ -4,13 +4,21 @@ namespace EventPlannerAPI.Models;
 
 public class Booking
 {
-    public int Id { get; set; }
-    public string Status { get; set; }
+    public required string Id { get; set; }
+    public BookingStatus Status { get; set; }
     public DateTime BookedDate { get; set; }
 
     // Foreign Keys 
-    public int WeddingId { get; set; }
+    public required string WeddingId { get; set; }
 
     // Navigation properties
-    public Wedding Wedding { get; set; }
+    public required Wedding Wedding { get; set; }
+}
+
+
+public enum BookingStatus
+{
+    Pending,
+    Confirmed,
+    Cancelled
 }
