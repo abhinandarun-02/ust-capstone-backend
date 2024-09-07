@@ -1,41 +1,56 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllers();
-
-// Configure JWT authentication
-builder.Services.AddAuthentication(options =>
+using EventPlannerAPI.Mapping;
+using EventPlannerAPI.Data;
+using Microsoft.EntityFrameworkCore;
+internal class Program
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(jwtOptions =>
-{
-    jwtOptions.SaveToken = true;
-    jwtOptions.TokenValidationParameters = new TokenValidationParameters
+    private static void Main(string[] args)
     {
-        
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("JWT:Secret"))),
-        ValidateLifetime = true,
-        ValidateAudience = false,
-        ValidateIssuer = false,
-        ValidIssuer = "",
-        ValidAudience = ""
-    };
-});
+        var builder = WebApplication.CreateBuilder(args);
 
+        // Add services to the container.
 
-var app = builder.Build();
+        builder.Services.AddControllers();
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-// Configure the HTTP request pipeline.
+        builder.Services.AddDbContext<EventPlannerDbContext>(options =>
+        {
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+        });
 
-app.UseAuthorization();
+        ConfigurationManager configuration = builder.Configuration;
 
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.SaveToken = true;
+            options.RequireHttpsMetadata = false;
+            options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidAudience = configuration["JWT:ValidAudience"],
+                ValidIssuer = configuration["JWT:ValidIssuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+            };
+        });
 
-app.MapControllers();
+        var app = builder.Build();
 
-app.Run();
+        // Configure the HTTP request pipeline.
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.Run();
+    }
+}

@@ -1,8 +1,7 @@
-namespace EventPlannerAPI.Models
+namespace EventPlannerAPI.DTOs
 {
-    public class Wedding
+    public class WeddingDTO
     {
-        public required string Id { get; set; }
         public required string Name { get; set; }
         public DateTime Date { get; set; }
         public int GuestCount { get; set; }

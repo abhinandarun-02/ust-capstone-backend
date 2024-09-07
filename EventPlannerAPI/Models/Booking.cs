@@ -15,7 +15,6 @@ public class Booking
     public required Wedding Wedding { get; set; }
 }
 
-
 public enum BookingStatus
 {
     Pending,
