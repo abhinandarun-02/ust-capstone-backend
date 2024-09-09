@@ -2,6 +2,7 @@ namespace EventPlannerAPI.DTOs
 {
     public class CateringDTO
     {
+        public int Id { get; set; }
         public required string Name { get; set; }
         public decimal Price { get; set; }
         public required string Location { get; set; }
