@@ -13,13 +13,16 @@ namespace EventPlannerAPI.Mapping
             CreateMap<Photography, PhotographyDTO>();
             CreateMap<Venue, VenueDTO>();
             CreateMap<Wedding, WeddingDTO>();
-            
+
             // Map Service to ServiceDTO
             CreateMap<Service, ServiceDTO>()
                 .ForMember(dest => dest.WeddingName, opt => opt.MapFrom(src => src.Wedding != null ? src.Wedding.Name : string.Empty))
                 .ForMember(dest => dest.CateringName, opt => opt.MapFrom(src => src.Catering != null ? src.Catering.Name : string.Empty))
                 .ForMember(dest => dest.PhotographyName, opt => opt.MapFrom(src => src.Photography != null ? src.Photography.Name : string.Empty))
-                .ForMember(dest => dest.VenueName, opt => opt.MapFrom(src => src.Venue != null ? src.Venue.Name : string.Empty));
+                .ForMember(dest => dest.VenueName, opt => opt.MapFrom(src => src.Venue != null ? src.Venue.Name : string.Empty))
+                .ForMember(dest => dest.CateringDetails, opt => opt.MapFrom(src => src.Catering)) // Map Catering details
+                .ForMember(dest => dest.PhotographyDetails, opt => opt.MapFrom(src => src.Photography)) // Map Photography details
+                .ForMember(dest => dest.VenueDetails, opt => opt.MapFrom(src => src.Venue)); // Map Venue details
 
             // Map DTOs to models
             CreateMap<CateringDTO, Catering>();

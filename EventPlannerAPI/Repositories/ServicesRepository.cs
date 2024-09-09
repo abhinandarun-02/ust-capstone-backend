@@ -82,6 +82,7 @@ namespace EventPlannerAPI.Repositories
             return _mapper.Map<IEnumerable<ServiceDTO>>(services);
         }
 
+
         // Get a service by Id
         public async Task<ServiceDTO?> GetServiceByIdAsync(int id)
         {

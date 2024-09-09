@@ -8,5 +8,11 @@ namespace EventPlannerAPI.DTOs
         public string? CateringName { get; set; }
         public string? PhotographyName { get; set; }
         public string? VenueName { get; set; }
+
+
+        // Additional details
+        public CateringDTO? CateringDetails { get; set; }
+        public PhotographyDTO? PhotographyDetails { get; set; }
+        public VenueDTO? VenueDetails { get; set; }
     }
 }

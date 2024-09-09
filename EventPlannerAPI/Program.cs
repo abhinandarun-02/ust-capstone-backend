@@ -5,6 +5,7 @@ using EventPlannerAPI.Mapping;
 using EventPlannerAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using EventPlannerAPI.Repositories.Services;
+using EventPlannerAPI.Repositories;
 internal class Program
 {
     private static void Main(string[] args)
@@ -16,6 +17,10 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddAutoMapper(typeof(MappingProfile));
         builder.Services.AddScoped<IWeddingRepository, WeddingRepository>();
+        builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
+        builder.Services.AddScoped<IPhotographyRepository, PhotographyRepository>();
+        builder.Services.AddScoped<IVenueRepository, VenueRepository>();
+        builder.Services.AddScoped<ICateringRepository, CateringRepository>();
 
         builder.Services.AddDbContext<EventPlannerDbContext>(options =>
         {
