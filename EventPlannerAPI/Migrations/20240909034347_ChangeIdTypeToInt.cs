@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlannerAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class ChangeIdTypeToInt : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,11 +16,12 @@ namespace EventPlannerAPI.Migrations
                 name: "CancelledEvents",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     BookedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CancelledDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ReasonForCancel = table.Column<string>(type: "text", nullable: false),
-                    BookingId = table.Column<string>(type: "text", nullable: false)
+                    BookingId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,7 +32,8 @@ namespace EventPlannerAPI.Migrations
                 name: "Caterings",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     Location = table.Column<string>(type: "text", nullable: false),
@@ -50,7 +52,8 @@ namespace EventPlannerAPI.Migrations
                 name: "Photographies",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     Location = table.Column<string>(type: "text", nullable: false),
@@ -69,7 +72,8 @@ namespace EventPlannerAPI.Migrations
                 name: "Venues",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     Location = table.Column<string>(type: "text", nullable: false),
@@ -89,7 +93,8 @@ namespace EventPlannerAPI.Migrations
                 name: "Weddings",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     GuestCount = table.Column<int>(type: "integer", nullable: false),
@@ -105,10 +110,11 @@ namespace EventPlannerAPI.Migrations
                 name: "Bookings",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     BookedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    WeddingId = table.Column<string>(type: "text", nullable: false)
+                    WeddingId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,10 +134,10 @@ namespace EventPlannerAPI.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Type = table.Column<string>(type: "text", nullable: false),
-                    WeddingId = table.Column<string>(type: "text", nullable: false),
-                    CateringId = table.Column<string>(type: "text", nullable: true),
-                    PhotographyId = table.Column<string>(type: "text", nullable: true),
-                    VenueId = table.Column<string>(type: "text", nullable: true)
+                    WeddingId = table.Column<int>(type: "integer", nullable: false),
+                    CateringId = table.Column<int>(type: "integer", nullable: true),
+                    PhotographyId = table.Column<int>(type: "integer", nullable: true),
+                    VenueId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {

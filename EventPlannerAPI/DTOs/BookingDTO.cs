@@ -6,6 +6,6 @@ namespace EventPlannerAPI.DTOs
     {
         public BookingStatus Status { get; set; }
         public DateTime BookedDate { get; set; }
-        public required string WeddingName { get; set; }  // Use name instead of ID
+        public required string WeddingName { get; set; }
     }
 }

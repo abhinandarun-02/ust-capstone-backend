@@ -6,10 +6,10 @@ public class Service
     public required string Type { get; set; }
 
     // Foreign Keys
-    public required string WeddingId { get; set; }
-    public string? CateringId { get; set; }
-    public string? PhotographyId { get; set; }
-    public string? VenueId { get; set; }
+    public required int WeddingId { get; set; }
+    public int? CateringId { get; set; }
+    public int? PhotographyId { get; set; }
+    public int? VenueId { get; set; }
 
     // Navigation Properties
     public required Wedding Wedding { get; set; }

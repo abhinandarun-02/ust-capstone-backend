@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using EventPlannerAPI.Mapping;
 using EventPlannerAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using EventPlannerAPI.Repositories.Services;
 internal class Program
 {
     private static void Main(string[] args)
@@ -14,6 +15,7 @@ internal class Program
 
         builder.Services.AddControllers();
         builder.Services.AddAutoMapper(typeof(MappingProfile));
+        builder.Services.AddScoped<IWeddingRepository, WeddingRepository>();
 
         builder.Services.AddDbContext<EventPlannerDbContext>(options =>
         {

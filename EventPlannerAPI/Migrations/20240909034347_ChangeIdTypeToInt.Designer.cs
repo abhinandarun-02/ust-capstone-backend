@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlannerAPI.Migrations
 {
     [DbContext(typeof(EventPlannerDbContext))]
-    [Migration("20240906183004_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240909034347_ChangeIdTypeToInt")]
+    partial class ChangeIdTypeToInt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,8 +27,11 @@ namespace EventPlannerAPI.Migrations
 
             modelBuilder.Entity("EventPlannerAPI.Models.Booking", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("BookedDate")
                         .HasColumnType("timestamp with time zone");
@@ -36,9 +39,8 @@ namespace EventPlannerAPI.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<string>("WeddingId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("WeddingId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -49,15 +51,17 @@ namespace EventPlannerAPI.Migrations
 
             modelBuilder.Entity("EventPlannerAPI.Models.CancelledEvent", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("BookedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("BookingId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("BookingId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CancelledDate")
                         .HasColumnType("timestamp with time zone");
@@ -73,8 +77,11 @@ namespace EventPlannerAPI.Migrations
 
             modelBuilder.Entity("EventPlannerAPI.Models.Catering", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("About")
                         .IsRequired()
@@ -113,8 +120,11 @@ namespace EventPlannerAPI.Migrations
 
             modelBuilder.Entity("EventPlannerAPI.Models.Photography", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("About")
                         .IsRequired()
@@ -159,22 +169,21 @@ namespace EventPlannerAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CateringId")
-                        .HasColumnType("text");
+                    b.Property<int?>("CateringId")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("PhotographyId")
-                        .HasColumnType("text");
+                    b.Property<int?>("PhotographyId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("VenueId")
-                        .HasColumnType("text");
+                    b.Property<int?>("VenueId")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("WeddingId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("WeddingId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -191,8 +200,11 @@ namespace EventPlannerAPI.Migrations
 
             modelBuilder.Entity("EventPlannerAPI.Models.Venue", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("About")
                         .IsRequired()
@@ -234,8 +246,11 @@ namespace EventPlannerAPI.Migrations
 
             modelBuilder.Entity("EventPlannerAPI.Models.Wedding", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");

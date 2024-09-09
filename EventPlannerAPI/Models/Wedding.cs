@@ -2,7 +2,7 @@ namespace EventPlannerAPI.Models
 {
     public class Wedding
     {
-        public required string Id { get; set; }
+        public int Id { get; set; }
         public required string Name { get; set; }
         public DateTime Date { get; set; }
         public int GuestCount { get; set; }

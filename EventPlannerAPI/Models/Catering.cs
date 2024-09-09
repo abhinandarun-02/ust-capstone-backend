@@ -1,7 +1,7 @@
 namespace EventPlannerAPI.Models;
 public class Catering
 {
-    public required string Id { get; set; }
+    public required int Id { get; set; }
     public required string Name { get; set; }
     public decimal Price { get; set; }
     public required string Location { get; set; }
