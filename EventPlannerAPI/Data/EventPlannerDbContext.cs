@@ -8,8 +8,6 @@ public class EventPlannerDbContext : DbContext
 {
     public EventPlannerDbContext(DbContextOptions options) : base(options) { }
     public DbSet<Wedding> Weddings { get; set; }
-    public DbSet<Booking> Bookings { get; set; }
-    public DbSet<CancelledEvent> CancelledEvents { get; set; }
     public DbSet<Service> Services { get; set; }
     public DbSet<Catering> Caterings { get; set; }
     public DbSet<Photography> Photographies { get; set; }
