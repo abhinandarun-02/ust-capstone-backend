@@ -31,14 +31,11 @@ namespace EventPlannerAPI.Repositories.Services
         }
 
         // READ: Fetch a wedding by Id
-        public async Task<WeddingDTO> GetWeddingByIdAsync(int id)
+        public async Task<WeddingDTO?> GetWeddingByIdAsync(int id)
         {
             // Fetch the wedding from the database using the ID
-            var wedding = await _context.Weddings.FirstOrDefaultAsync(w => w.Id == id);
-            if (wedding == null) return null;
-
-            // Map model to DTO before returning
-            return _mapper.Map<WeddingDTO>(wedding);
+            var wedding = await _context.Weddings.FindAsync(id);
+            return wedding == null ? null : _mapper.Map<WeddingDTO>(wedding);
         }
 
         // READ: Get all weddings

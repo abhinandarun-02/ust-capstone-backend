@@ -8,5 +8,8 @@ namespace EventPlannerAPI.Models
         public int GuestCount { get; set; }
         public required string Location { get; set; }
         public required string PlannerUsername { get; set; }
+
+        // Navigation properties
+        public ICollection<Service> Services { get; set; } = new List<Service>();
     }
 }
