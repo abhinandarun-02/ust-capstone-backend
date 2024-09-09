@@ -31,7 +31,9 @@ namespace EventPlannerAPI.Controllers
             }
 
             var success = await _weddingRepository.CreateWeddingAsync(weddingDto);
+            if (success)
             return Ok($"{weddingDto} was successfully created.");
+            return BadRequest("Couldn't create wedding.");
         }
 
         // GET: api/Wedding/{id}

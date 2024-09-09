@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using System.Security.Claims;
 
 namespace EventPlannerAPI.Controllers
@@ -23,6 +24,7 @@ namespace EventPlannerAPI.Controllers
         [Authorize]
         public IActionResult GetUserInfo()
         {
+            var Id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var roles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
             var userName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
@@ -34,6 +36,7 @@ namespace EventPlannerAPI.Controllers
 
             var userInfo = new
             {
+                Id = Id,
                 Name = userName,
                 Email = email,
                 Roles = roles

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using AutoMapper;
 using EventPlannerAPI.Data;
 using EventPlannerAPI.DTOs;
@@ -11,24 +12,35 @@ namespace EventPlannerAPI.Repositories.Services
     {
         private readonly EventPlannerDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public WeddingRepository(EventPlannerDbContext context, IMapper mapper)
+        public WeddingRepository(EventPlannerDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // CREATE: Adds a new wedding
         public async Task<bool> CreateWeddingAsync(WeddingDTO weddingDto)
         {
-            // Map DTO to model
+            var plannerId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(plannerId))
+            {
+                return false;
+            }
+
             var wedding = _mapper.Map<Wedding>(weddingDto);
 
-            _context.Add(wedding);
+            wedding.PlannerId = plannerId;
+
+            _context.Weddings.Add(wedding);
             await _context.SaveChangesAsync();
 
             return true;
         }
+
 
         // READ: Fetch a wedding by Id
         public async Task<WeddingDTO?> GetWeddingByIdAsync(int id)

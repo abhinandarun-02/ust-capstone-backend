@@ -7,6 +7,7 @@ namespace EventPlannerAPI.Models
         public DateTime Date { get; set; }
         public int GuestCount { get; set; }
         public required string Location { get; set; }
+        public string? PlannerId { get; set; }
         public required string PlannerUsername { get; set; }
 
         // Navigation properties
