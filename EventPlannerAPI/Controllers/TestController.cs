@@ -24,25 +24,27 @@ namespace EventPlannerAPI.Controllers
         [Authorize]
         public IActionResult GetUserInfo()
         {
-            var Id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var idClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            var emailClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
             var roles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
-            var userName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            var userNameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
 
-            if (email == null)
+            // Ensure email is present, which indicates a valid token
+            if (emailClaim == null)
             {
                 return Unauthorized("No valid token found.");
             }
 
             var userInfo = new
             {
-                Id = Id,
-                Name = userName,
-                Email = email,
+                Id = idClaim?.Value,
+                Name = userNameClaim?.Value,
+                Email = emailClaim?.Value,
                 Roles = roles
             };
 
             return Ok(userInfo);
         }
+
     }
 }

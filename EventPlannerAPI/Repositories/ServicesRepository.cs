@@ -23,7 +23,7 @@ namespace EventPlannerAPI.Repositories
         // Add a new service
         public async Task<ServiceDTO?> AddServiceAsync(ServiceDTO serviceDto)
         {
-            var wedding = await _context.Weddings.FirstOrDefaultAsync(w => w.Id == serviceDto.weddingId);
+            var wedding = await _context.Weddings.FirstOrDefaultAsync(w => w.Id == serviceDto.WeddingId);
             if (wedding == null)
             {
                 return null; 
