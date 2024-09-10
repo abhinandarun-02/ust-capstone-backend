@@ -25,6 +25,7 @@ namespace AuthAPI
 
             // Add the AuthRepository as a scoped service.
             builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             // Add the AuthDbContext to the services collection.
             builder.Services.AddDbContext<AuthDbContext>(options =>
@@ -32,8 +33,8 @@ namespace AuthAPI
 
             // Add Identity services to the services collection.
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<AuthDbContext>()
-                .AddDefaultTokenProviders();
+                   .AddEntityFrameworkStores<AuthDbContext>()
+                   .AddDefaultTokenProviders();
 
             // Get the configuration from the builder.
             var config = builder.Configuration;
@@ -67,7 +68,7 @@ namespace AuthAPI
 
             // Configure the HTTP request pipeline.
 
-app.UseCors(builder => builder
+            app.UseCors(builder => builder
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
