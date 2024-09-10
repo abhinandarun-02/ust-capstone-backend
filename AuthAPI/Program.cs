@@ -66,6 +66,11 @@ namespace AuthAPI
 
             // Configure the HTTP request pipeline.
 
+app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseAuthentication();
             app.UseAuthorization();
 
