@@ -35,7 +35,7 @@ namespace EventPlannerAPI.Repositories.Services
 
             wedding.PlannerId = plannerId;
 
-            _context.Weddings.Add(wedding);
+            await _context.Weddings.AddAsync(wedding);
             await _context.SaveChangesAsync();
 
             return true;

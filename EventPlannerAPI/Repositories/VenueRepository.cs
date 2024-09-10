@@ -4,6 +4,7 @@ using EventPlannerAPI.DTOs;
 using EventPlannerAPI.Models;
 using EventPlannerAPI.Repositories.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace EventPlannerAPI.Repositories
 {
@@ -18,12 +19,12 @@ namespace EventPlannerAPI.Repositories
             _mapper = mapper;
         }
 
-        public async Task<VenueDTO?> AddVenueAsync(VenueDTO venueDto)
+        public async Task<bool> AddVenueAsync(VenueDTO venueDto)
         {
             var venue = _mapper.Map<Venue>(venueDto);
             await _context.Venues.AddAsync(venue);
             await _context.SaveChangesAsync();
-            return venueDto;
+            return true;
         }
 
         public async Task<bool> DeleteVenueAsync(int id)
@@ -52,16 +53,18 @@ namespace EventPlannerAPI.Repositories
 
         public async Task<bool> UpdateVenueAsync(int id, VenueDTO venueDto)
         {
-            var existingVenue = await _context.Venues.FindAsync(id);
+            // Find the existing venue by its Id
+            var existingVenue = await _context.Venues.FirstOrDefaultAsync(v => v.Id == id);
             if (existingVenue == null)
             {
                 return false;
             }
 
+            // Map the updated values from the DTO to the existing entity
             _mapper.Map(venueDto, existingVenue);
-            _context.Venues.Update(existingVenue);
             await _context.SaveChangesAsync();
             return true;
         }
+
     }
 }

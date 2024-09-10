@@ -33,21 +33,29 @@ namespace AuthAPI.Repositories
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
-                var existingUser = await _userManager.FindByEmailAsync(model.Email);
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Name, existingUser.UserName),
+                    new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
+
+                // Add role claims
                 foreach (var userRole in userRoles)
                 {
                     authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                 }
+
+                // Generate token
                 var token = new JwtSecurityTokenHandler().WriteToken(GetToken(authClaims));
 
-                return new LoginResponseDTO { StatusCode = StatusCodes.Success, Message = StatusMessages.SuccessStatus, Token = token };
+                return new LoginResponseDTO
+                {
+                    StatusCode = StatusCodes.Success,
+                    Message = StatusMessages.SuccessStatus,
+                    Token = token
+                };
             }
             return null;
         }
@@ -57,7 +65,11 @@ namespace AuthAPI.Repositories
             var userExists = await _userManager.FindByEmailAsync(model.Email);
 
             if (userExists != null)
-                return new Response { StatusCode = StatusCodes.NotFound, Message = StatusMessages.UserAlreadyExistsMessage };
+                return new Response
+                {
+                    StatusCode = StatusCodes.NotFound,
+                    Message = StatusMessages.UserAlreadyExistsMessage
+                };
 
             ApplicationUser user = new()
             {
@@ -71,15 +83,26 @@ namespace AuthAPI.Repositories
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
-                return new Response { StatusCode = StatusCodes.NotFound, Message = StatusMessages.UserCreationFailedMessage };
+                return new Response
+                {
+                    StatusCode = StatusCodes.NotFound,
+                    Message = StatusMessages.UserCreationFailedMessage
+                };
 
+            // Ensure the Planner role exists
             if (!await _roleManager.RoleExistsAsync(UserRoles.Planner))
             {
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Planner));
-                await _userManager.AddToRoleAsync(user, UserRoles.Planner);
             }
 
-            return new Response { StatusCode = StatusCodes.Success, Message = StatusMessages.UserCreatedSuccessfullyMessage };
+            // Assign Planner role
+            await _userManager.AddToRoleAsync(user, UserRoles.Planner);
+
+            return new Response
+            {
+                StatusCode = StatusCodes.Success,
+                Message = StatusMessages.UserCreatedSuccessfullyMessage
+            };
         }
 
         public async Task<Response> RegisterAdminAsync(RegisterDTO model)
@@ -87,7 +110,11 @@ namespace AuthAPI.Repositories
             var userExists = await _userManager.FindByEmailAsync(model.Email);
 
             if (userExists != null)
-                return new Response { StatusCode = StatusCodes.NotFound, Message = StatusMessages.UserAlreadyExistsMessage };
+                return new Response
+                {
+                    StatusCode = StatusCodes.NotFound,
+                    Message = StatusMessages.UserAlreadyExistsMessage
+                };
 
             ApplicationUser user = new()
             {
@@ -99,16 +126,52 @@ namespace AuthAPI.Repositories
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
-                return new Response { StatusCode = StatusCodes.NotFound, Message = StatusMessages.UserCreationFailedMessage };
+                return new Response
+                {
+                    StatusCode = StatusCodes.NotFound,
+                    Message = StatusMessages.UserCreationFailedMessage
+                };
 
+            // Ensure both Admin and Planner roles exist
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
             {
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
 
-            return new Response { StatusCode = StatusCodes.Success, Message = StatusMessages.UserCreatedSuccessfullyMessage };
+            if (!await _roleManager.RoleExistsAsync(UserRoles.Planner))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Planner));
+            }
+
+            // Assign Admin role
+            var adminRoleResult = await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+            if (!adminRoleResult.Succeeded)
+            {
+                return new Response
+                {
+                    StatusCode = StatusCodes.NotFound,
+                    Message = "Failed to assign Admin role"
+                };
+            }
+
+            // Assign Planner role
+            var plannerRoleResult = await _userManager.AddToRoleAsync(user, UserRoles.Planner);
+            if (!plannerRoleResult.Succeeded)
+            {
+                return new Response
+                {
+                    StatusCode = StatusCodes.NotFound,
+                    Message = "Failed to assign Planner role"
+                };
+            }
+
+            return new Response
+            {
+                StatusCode = StatusCodes.Success,
+                Message = StatusMessages.UserCreatedSuccessfullyMessage
+            };
         }
+
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
