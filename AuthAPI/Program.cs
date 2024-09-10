@@ -52,8 +52,10 @@ namespace AuthAPI
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
                     ValidateLifetime = true,
-                    ValidateAudience = false,
-                    ValidateIssuer = false
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidAudience = config["JWT:ValidAudience"],
+                    ValidIssuer = config["JWT:ValidIssuer"],
                 };
             });
 

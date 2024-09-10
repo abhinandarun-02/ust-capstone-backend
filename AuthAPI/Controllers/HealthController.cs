@@ -9,7 +9,7 @@ namespace AuthAPI.Controllers
     public class HealthController : ControllerBase
     {
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize]
         public IActionResult Get()
         {
             return Ok("Healthy");
