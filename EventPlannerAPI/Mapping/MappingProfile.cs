@@ -28,6 +28,7 @@ namespace EventPlannerAPI.Mapping
             // Map DTOs to models
             CreateMap<PhotographyDTO, Photography>();
             CreateMap<WeddingDTO, Wedding>();
+            CreateMap<CateringDTO, Catering>();
 
             // Map ServiceDTO to Service
             CreateMap<ServiceDTO, Service>()

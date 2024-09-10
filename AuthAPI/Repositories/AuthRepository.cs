@@ -11,7 +11,6 @@ using AuthAPI.Repositories.Services;
 using AuthAPI.Models;
 using AuthAPI.DTO;
 using AuthAPI.AppConstants;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace AuthAPI.Repositories
 {
@@ -142,9 +141,27 @@ namespace AuthAPI.Repositories
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Planner));
             }
 
-            // Assign Admin and Planner roles
-            await _userManager.AddToRoleAsync(user, UserRoles.Admin);
-            await _userManager.AddToRoleAsync(user, UserRoles.Planner);
+            // Assign Admin role
+            var adminRoleResult = await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+            if (!adminRoleResult.Succeeded)
+            {
+                return new Response
+                {
+                    StatusCode = StatusCodes.NotFound,
+                    Message = "Failed to assign Admin role"
+                };
+            }
+
+            // Assign Planner role
+            var plannerRoleResult = await _userManager.AddToRoleAsync(user, UserRoles.Planner);
+            if (!plannerRoleResult.Succeeded)
+            {
+                return new Response
+                {
+                    StatusCode = StatusCodes.NotFound,
+                    Message = "Failed to assign Planner role"
+                };
+            }
 
             return new Response
             {
@@ -152,6 +169,7 @@ namespace AuthAPI.Repositories
                 Message = StatusMessages.UserCreatedSuccessfullyMessage
             };
         }
+
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {

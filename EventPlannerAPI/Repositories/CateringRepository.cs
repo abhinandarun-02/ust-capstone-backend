@@ -52,14 +52,24 @@ namespace EventPlannerAPI.Repositories
 
         public async Task<bool> UpdateCateringAsync(int id, CateringDTO cateringDto)
         {
-            var existingcatering = await _context.Caterings.FindAsync(id);
-            if (existingcatering == null)
+            var existingCatering = await _context.Caterings.FirstOrDefaultAsync(v => v.Id == id);
+            if (existingCatering == null)
             {
                 return false;
             }
 
-            _mapper.Map(cateringDto, existingcatering);
-            _context.Caterings.Update(existingcatering);
+            // Map the updated values from the DTO to the existing entity
+            
+            
+            existingCatering.Name = cateringDto.Name;
+            existingCatering.Price = cateringDto.Price;
+            existingCatering.Location = cateringDto.Location;
+            existingCatering.About = cateringDto.About;
+            existingCatering.Rating = cateringDto.Rating;
+            existingCatering.Tier = cateringDto.Tier;
+            existingCatering.Contact = cateringDto.Contact;
+            existingCatering.MenuDetails = cateringDto.MenuDetails;
+
             await _context.SaveChangesAsync();
             return true;
         }
