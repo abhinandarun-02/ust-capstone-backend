@@ -18,12 +18,12 @@ namespace EventPlannerAPI.Repositories
             _mapper = mapper;
         }
 
-        public async Task<CateringDTO?> AddCateringAsync(CateringDTO cateringDto)
+        public async Task<bool> AddCateringAsync(CateringDTO cateringDto)
         {
             var catering = _mapper.Map<Catering>(cateringDto);
             await _context.Caterings.AddAsync(catering);
             await _context.SaveChangesAsync();
-            return cateringDto;
+            return true;
         }
 
         public async Task<bool> DeleteCateringAsync(int id)

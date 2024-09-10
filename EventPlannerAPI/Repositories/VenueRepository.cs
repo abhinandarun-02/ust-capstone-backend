@@ -18,12 +18,12 @@ namespace EventPlannerAPI.Repositories
             _mapper = mapper;
         }
 
-        public async Task<VenueDTO?> AddVenueAsync(VenueDTO venueDto)
+        public async Task<bool> AddVenueAsync(VenueDTO venueDto)
         {
             var venue = _mapper.Map<Venue>(venueDto);
             await _context.Venues.AddAsync(venue);
             await _context.SaveChangesAsync();
-            return venueDto;
+            return true;
         }
 
         public async Task<bool> DeleteVenueAsync(int id)

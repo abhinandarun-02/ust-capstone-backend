@@ -18,12 +18,12 @@ namespace EventPlannerAPI.Repositories
             _mapper = mapper;
         }
 
-        public async Task<PhotographyDTO?> AddPhotographyAsync(PhotographyDTO photographyDto)
+        public async Task<bool> AddPhotographyAsync(PhotographyDTO photographyDto)
         {
             var photography = _mapper.Map<Photography>(photographyDto);
             await _context.Photographies.AddAsync(photography);
             await _context.SaveChangesAsync();
-            return photographyDto;
+            return true;
         }
 
         public async Task<bool> DeletePhotographyAsync(int id)
