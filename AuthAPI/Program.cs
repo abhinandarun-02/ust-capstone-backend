@@ -1,5 +1,6 @@
 
 using AuthAPI.DbContext;
+using AuthAPI.Models;
 using AuthAPI.Repositories;
 using AuthAPI.Repositories.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,15 +25,16 @@ namespace AuthAPI
 
             // Add the AuthRepository as a scoped service.
             builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             // Add the AuthDbContext to the services collection.
             builder.Services.AddDbContext<AuthDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Add Identity services to the services collection.
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<AuthDbContext>()
-                .AddDefaultTokenProviders();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                   .AddEntityFrameworkStores<AuthDbContext>()
+                   .AddDefaultTokenProviders();
 
             // Get the configuration from the builder.
             var config = builder.Configuration;
@@ -65,6 +67,11 @@ namespace AuthAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseAuthentication();
             app.UseAuthorization();
