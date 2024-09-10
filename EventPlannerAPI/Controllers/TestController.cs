@@ -13,13 +13,6 @@ namespace EventPlannerAPI.Controllers
         {
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult Get()
-        {
-            return Ok("Hello World");
-        }
-
         [HttpGet("userinfo")]
         [Authorize]
         public IActionResult GetUserInfo()

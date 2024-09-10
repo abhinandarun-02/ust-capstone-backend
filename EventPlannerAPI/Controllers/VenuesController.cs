@@ -88,7 +88,7 @@ namespace EventPlannerAPI.Controllers
             var success = await _venueRepository.UpdateVenueAsync(id, venueDTO);
             if (!success)
             {
-                return NotFound($"Venue with id {id} could not be found or updated.");
+                return NotFound($"Venue with id {id} could not or updated.");
             }
 
             return Ok($"Venue with id {id} was successfully updated.");
