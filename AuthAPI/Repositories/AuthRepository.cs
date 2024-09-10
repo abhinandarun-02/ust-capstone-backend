@@ -16,11 +16,11 @@ namespace AuthAPI.Repositories
 {
     public class AuthRepository : IAuthRepository
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -59,11 +59,13 @@ namespace AuthAPI.Repositories
             if (userExists != null)
                 return new Response { StatusCode = StatusCodes.NotFound, Message = StatusMessages.UserAlreadyExistsMessage };
 
-            IdentityUser user = new()
+            ApplicationUser user = new()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -87,7 +89,7 @@ namespace AuthAPI.Repositories
             if (userExists != null)
                 return new Response { StatusCode = StatusCodes.NotFound, Message = StatusMessages.UserAlreadyExistsMessage };
 
-            IdentityUser user = new()
+            ApplicationUser user = new()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),

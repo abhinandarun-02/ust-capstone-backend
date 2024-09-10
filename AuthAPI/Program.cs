@@ -1,5 +1,6 @@
 
 using AuthAPI.DbContext;
+using AuthAPI.Models;
 using AuthAPI.Repositories;
 using AuthAPI.Repositories.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,7 +31,7 @@ namespace AuthAPI
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Add Identity services to the services collection.
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>()
                 .AddDefaultTokenProviders();
 
