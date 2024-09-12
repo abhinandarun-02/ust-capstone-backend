@@ -68,26 +68,50 @@ namespace EventPlannerAPI.Migrations
                         new
                         {
                             Id = 1,
-                            About = "Fine dining experience.",
-                            Contact = "info@gourmetfeast.com",
-                            Location = "City Center",
-                            MenuDetails = "Includes a five-course meal.",
-                            Name = "Gourmet Feast",
-                            Price = 500.00m,
+                            About = "High-end catering service with gourmet options.",
+                            Contact = "info@gourmetdelights.com",
+                            Location = "New York",
+                            MenuDetails = "Italian, Mexican, and American cuisine",
+                            Name = "Gourmet Delights",
+                            Price = 1500.00m,
                             Rating = 4.5m,
                             Tier = "Premium"
                         },
                         new
                         {
                             Id = 2,
-                            About = "Casual and quick meals.",
-                            Contact = "info@quickbites.com",
-                            Location = "Downtown",
-                            MenuDetails = "Buffet style meals with various options.",
-                            Name = "Quick Bites",
-                            Price = 200.00m,
-                            Rating = 4.0m,
+                            About = "Specializes in vegetarian and vegan meals.",
+                            Contact = "contact@greenbites.com",
+                            Location = "San Francisco",
+                            MenuDetails = "Vegan salads, wraps, and smoothies",
+                            Name = "Green Bites",
+                            Price = 1200.00m,
+                            Rating = 4.8m,
                             Tier = "Standard"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            About = "Classic catering with a wide range of dishes.",
+                            Contact = "hello@classicfeasts.com",
+                            Location = "Chicago",
+                            MenuDetails = "American BBQ, salads, and desserts",
+                            Name = "Classic Feasts",
+                            Price = 1800.00m,
+                            Rating = 4.6m,
+                            Tier = "Standard"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            About = "Elegant catering for sophisticated events.",
+                            Contact = "info@elegantevents.com",
+                            Location = "Los Angeles",
+                            MenuDetails = "French cuisine and gourmet options",
+                            Name = "Elegant Events",
+                            Price = 2000.00m,
+                            Rating = 4.9m,
+                            Tier = "Luxury"
                         });
                 });
 
@@ -99,11 +123,24 @@ namespace EventPlannerAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<decimal>("Cost")
                         .HasColumnType("numeric");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Notes")
                         .HasColumnType("text");
 
                     b.Property<int>("WeddingId")
@@ -162,25 +199,49 @@ namespace EventPlannerAPI.Migrations
                         new
                         {
                             Id = 1,
-                            About = "Professional wedding photography.",
-                            Contact = "contact@capturemoments.com",
-                            Location = "Uptown",
-                            Name = "Capture Moments",
-                            PackageDetails = "Full-day coverage with photo album.",
-                            Price = 800.00m,
-                            Rating = 4.8m,
-                            Tier = "Premium"
+                            About = "Specializing in wedding photography with a magical touch.",
+                            Contact = "contact@photomagic.com",
+                            Location = "Los Angeles",
+                            Name = "PhotoMagic Studios",
+                            PackageDetails = "Full-day coverage, digital album, and prints",
+                            Price = 2500.00m,
+                            Rating = 4.9m,
+                            Tier = "Luxury"
                         },
                         new
                         {
                             Id = 2,
-                            About = "High-quality event photography.",
-                            Contact = "info@photomagic.com",
-                            Location = "Suburbs",
-                            Name = "Photo Magic",
-                            PackageDetails = "Half-day coverage with digital files.",
-                            Price = 600.00m,
-                            Rating = 4.6m,
+                            About = "Capturing the essence of every event.",
+                            Contact = "info@eventsnapshots.com",
+                            Location = "New York",
+                            Name = "Event Snapshots",
+                            PackageDetails = "Half-day coverage, digital photos",
+                            Price = 1800.00m,
+                            Rating = 4.7m,
+                            Tier = "Standard"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            About = "High-quality photography with creative styles.",
+                            Contact = "contact@memorablemoments.com",
+                            Location = "Miami",
+                            Name = "Memorable Moments",
+                            PackageDetails = "Full-day coverage, digital and printed photos",
+                            Price = 2200.00m,
+                            Rating = 4.8m,
+                            Tier = "Luxury"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            About = "Affordable and reliable photography services.",
+                            Contact = "info@captureall.com",
+                            Location = "San Francisco",
+                            Name = "Capture All",
+                            PackageDetails = "Basic coverage with digital photos",
+                            Price = 1500.00m,
+                            Rating = 4.5m,
                             Tier = "Standard"
                         });
                 });
@@ -271,28 +332,54 @@ namespace EventPlannerAPI.Migrations
                         new
                         {
                             Id = 1,
-                            About = "Elegant ballroom for weddings.",
-                            Address = "123 Main Street",
+                            About = "A luxurious venue with a grand view and ample space.",
+                            Address = "123 Grand Ave, New York, NY",
                             Capacity = 500,
-                            Contact = "info@grandhall.com",
-                            Location = "Main Street",
-                            Name = "Grand Hall",
-                            Price = 1500.00m,
-                            Rating = 4.7m,
+                            Contact = "contact@grandballroom.com",
+                            Location = "New York",
+                            Name = "Grand Ballroom",
+                            Price = 8000.00m,
+                            Rating = 4.9m,
                             Tier = "Luxury"
                         },
                         new
                         {
                             Id = 2,
-                            About = "Beautiful venue by the river.",
-                            Address = "456 River Road",
+                            About = "Beautiful beachside venue with stunning ocean views.",
+                            Address = "456 Beach Blvd, Miami, FL",
                             Capacity = 300,
-                            Contact = "info@riversidepavilion.com",
-                            Location = "River Road",
-                            Name = "Riverside Pavilion",
-                            Price = 1200.00m,
-                            Rating = 4.5m,
+                            Contact = "info@oceanviewresort.com",
+                            Location = "Miami",
+                            Name = "Ocean View Resort",
+                            Price = 6000.00m,
+                            Rating = 4.7m,
                             Tier = "Premium"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            About = "A picturesque garden venue perfect for outdoor weddings.",
+                            Address = "789 Garden St, San Francisco, CA",
+                            Capacity = 250,
+                            Contact = "contact@elegantgardens.com",
+                            Location = "San Francisco",
+                            Name = "Elegant Gardens",
+                            Price = 5500.00m,
+                            Rating = 4.8m,
+                            Tier = "Premium"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            About = "A chic, modern space for urban weddings.",
+                            Address = "101 Loft Lane, Chicago, IL",
+                            Capacity = 150,
+                            Contact = "info@modernloft.com",
+                            Location = "Chicago",
+                            Name = "Modern Loft",
+                            Price = 4000.00m,
+                            Rating = 4.6m,
+                            Tier = "Standard"
                         });
                 });
 
@@ -303,6 +390,9 @@ namespace EventPlannerAPI.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Budget")
+                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
