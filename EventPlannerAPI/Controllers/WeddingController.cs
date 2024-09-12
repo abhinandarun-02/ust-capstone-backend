@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.Configuration.Annotations;
 using EventPlannerAPI.DTOs;
+using EventPlannerAPI.Models;
 using EventPlannerAPI.Repositories.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,9 +35,13 @@ namespace EventPlannerAPI.Controllers
             }
 
             var success = await _weddingRepository.CreateWeddingAsync(weddingDto);
-            if (success)
-                return Ok($"{weddingDto} was successfully created.");
-            return BadRequest("Couldn't create wedding.");
+            var response = new Response();
+            if (success){
+                response.Message = $"{weddingDto.Id} was successfully created.";
+                return Ok(response);
+            }
+            response.Message = "Couldn't create wedding.";
+            return BadRequest(response);
         }
 
         // GET: api/Wedding/{id}
@@ -63,9 +69,11 @@ namespace EventPlannerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateWeddingAsync(int id, [FromBody] WeddingDTO weddingDto)
         {
+            var response = new Response();
             if (weddingDto == null)
             {
-                return BadRequest("Wedding data is required.");
+                response.Message = "Wedding data is required.";
+                return BadRequest(response);
             }
 
             var updatedWedding = await _weddingRepository.UpdateWeddingAsync(id, weddingDto);
@@ -73,8 +81,8 @@ namespace EventPlannerAPI.Controllers
             {
                 return NotFound();
             }
-
-            return Ok("Updation successful.");
+            response.Message = "Updation successful.";
+            return Ok(response);
         }
 
         // DELETE: api/Wedding/{id}
@@ -86,8 +94,7 @@ namespace EventPlannerAPI.Controllers
             {
                 return NotFound();
             }
-
-            return Ok("Deletion Successful!");
+            return Ok(new Response{Message = "Updation successful."});
         }
     }
 }
