@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlannerAPI.Migrations
 {
     [DbContext(typeof(EventPlannerDbContext))]
-    [Migration("20240909115142_AddPlannerIdToWeddings")]
-    partial class AddPlannerIdToWeddings
+    [Migration("20240911182523_AddExpenseMigration")]
+    partial class AddExpenseMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,6 +92,31 @@ namespace EventPlannerAPI.Migrations
                             Rating = 4.0m,
                             Tier = "Standard"
                         });
+                });
+
+            modelBuilder.Entity("EventPlannerAPI.Models.Expense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("WeddingId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WeddingId");
+
+                    b.ToTable("Expenses");
                 });
 
             modelBuilder.Entity("EventPlannerAPI.Models.Photography", b =>
@@ -297,7 +322,6 @@ namespace EventPlannerAPI.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PlannerId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PlannerUsername")
@@ -307,6 +331,15 @@ namespace EventPlannerAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Weddings");
+                });
+
+            modelBuilder.Entity("EventPlannerAPI.Models.Expense", b =>
+                {
+                    b.HasOne("EventPlannerAPI.Models.Wedding", null)
+                        .WithMany("Expenses")
+                        .HasForeignKey("WeddingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EventPlannerAPI.Models.Service", b =>
@@ -340,6 +373,8 @@ namespace EventPlannerAPI.Migrations
 
             modelBuilder.Entity("EventPlannerAPI.Models.Wedding", b =>
                 {
+                    b.Navigation("Expenses");
+
                     b.Navigation("Services");
                 });
 #pragma warning restore 612, 618

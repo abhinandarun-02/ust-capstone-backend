@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EventPlannerAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class PhotographiesController : ControllerBase
     {

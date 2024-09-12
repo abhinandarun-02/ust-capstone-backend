@@ -5,14 +5,14 @@
 namespace EventPlannerAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class AddPlannerIdToWeddings : Migration
+    public partial class CategoryToExpenses : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "PlannerId",
-                table: "Weddings",
+                name: "Category",
+                table: "Expenses",
                 type: "text",
                 nullable: false,
                 defaultValue: "");
@@ -22,8 +22,8 @@ namespace EventPlannerAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "PlannerId",
-                table: "Weddings");
+                name: "Category",
+                table: "Expenses");
         }
     }
 }
