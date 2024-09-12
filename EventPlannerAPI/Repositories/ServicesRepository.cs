@@ -56,9 +56,9 @@ namespace EventPlannerAPI.Repositories
             Expense expense = new Expense 
             {
                 WeddingId = service.WeddingId,
-                Name = service.Type,
-                Cost = service.Catering?.Price??service.Photography?.Price??service.Venue?.Price??0
-                
+                Category = service.Type,
+                Cost = service.Catering?.Price??service.Photography?.Price??service.Venue?.Price??0,
+                Name = service.Catering?.Name??service.Photography?.Name??service.Venue?.Name??""
             };
             await _context.Expenses.AddAsync(expense);
             await _context.SaveChangesAsync();

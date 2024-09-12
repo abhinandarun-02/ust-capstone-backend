@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace EventPlannerAPI.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class ExpensesController : ControllerBase
     {
@@ -18,7 +17,6 @@ namespace EventPlannerAPI.Controllers
         }
 
         // POST: api/Expenses
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddExpense([FromBody] ExpenseDTO expenseDTO)
         {
@@ -63,7 +61,6 @@ namespace EventPlannerAPI.Controllers
         }
 
         // DELETE: api/Expenses/{id}
-        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExpense(int id)
         {
@@ -77,7 +74,6 @@ namespace EventPlannerAPI.Controllers
         }
 
         // PUT: api/Expenses/{id}
-        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateExpense(int id, [FromBody] ExpenseDTO expenseDTO)
         {
