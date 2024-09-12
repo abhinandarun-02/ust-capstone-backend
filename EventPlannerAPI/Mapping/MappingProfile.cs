@@ -13,6 +13,7 @@ namespace EventPlannerAPI.Mapping
             CreateMap<Photography, PhotographyDTO>();
             CreateMap<Venue, VenueDTO>();
             CreateMap<Wedding, WeddingDTO>();
+            CreateMap<Expense, ExpenseDTO>();
 
             // Map Service to ServiceDTO
             CreateMap<Service, ServiceDTO>()
@@ -29,6 +30,7 @@ namespace EventPlannerAPI.Mapping
             CreateMap<PhotographyDTO, Photography>();
             CreateMap<WeddingDTO, Wedding>();
             CreateMap<CateringDTO, Catering>();
+            CreateMap<ExpenseDTO, Expense>();
 
             // Map ServiceDTO to Service
             CreateMap<ServiceDTO, Service>()
