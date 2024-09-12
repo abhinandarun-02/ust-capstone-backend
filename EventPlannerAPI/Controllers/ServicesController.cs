@@ -1,10 +1,12 @@
 using EventPlannerAPI.DTOs;
 using EventPlannerAPI.Repositories.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventPlannerAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ServicesController : ControllerBase
     {

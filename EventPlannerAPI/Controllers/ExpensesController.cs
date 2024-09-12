@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace EventPlannerAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ExpensesController : ControllerBase
     {

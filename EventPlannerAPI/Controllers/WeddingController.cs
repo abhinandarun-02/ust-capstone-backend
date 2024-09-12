@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EventPlannerAPI.DTOs;
 using EventPlannerAPI.Repositories.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventPlannerAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class WeddingController : ControllerBase
     {
@@ -32,7 +34,7 @@ namespace EventPlannerAPI.Controllers
 
             var success = await _weddingRepository.CreateWeddingAsync(weddingDto);
             if (success)
-            return Ok($"{weddingDto} was successfully created.");
+                return Ok($"{weddingDto} was successfully created.");
             return BadRequest("Couldn't create wedding.");
         }
 
