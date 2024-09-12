@@ -52,7 +52,15 @@ namespace EventPlannerAPI.Repositories
             service.Photography = photography;
             service.Venue = venue;
 
-            await _context.Services.AddAsync(service);
+            await _context.Services.AddAsync(service);    
+            Expense expense = new Expense 
+            {
+                WeddingId = service.WeddingId,
+                Name = service.Type,
+                Cost = service.Catering?.Price??service.Photography?.Price??service.Venue?.Price??0
+                
+            };
+            await _context.Expenses.AddAsync(expense);
             await _context.SaveChangesAsync();
             return serviceDto;
         }

@@ -3,6 +3,7 @@ using System;
 using EventPlannerAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlannerAPI.Migrations
 {
     [DbContext(typeof(EventPlannerDbContext))]
-    partial class EventPlannerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240911182523_AddExpenseMigration")]
+    partial class AddExpenseMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
