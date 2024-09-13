@@ -1,4 +1,5 @@
 using EventPlannerAPI.DTOs;
+using EventPlannerAPI.Models;
 using EventPlannerAPI.Repositories.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,10 +25,10 @@ namespace EventPlannerAPI.Controllers
 
             if (result == null)
             {
-                return NotFound("Wedding or one of the services not found.");
+                return NotFound(new Response { Message = "Wedding or one of the services not found." });
             }
 
-            return Ok($"Services for {serviceDto.WeddingName} have been registered.");
+            return Ok(new Response { Message = $"Services for {serviceDto.WeddingName} have been registered." });
         }
 
         // READ: Fetch all services for a particular wedding
@@ -38,7 +39,7 @@ namespace EventPlannerAPI.Controllers
 
             if (services == null || !services.Any())
             {
-                return NotFound("No services found for the given wedding.");
+                return NotFound(new Response { Message = "No services found for the given wedding." });
             }
 
             return Ok(services);
@@ -52,7 +53,7 @@ namespace EventPlannerAPI.Controllers
 
             if (service == null)
             {
-                return NotFound("Service not found.");
+                return NotFound(new Response { Message = "Service not found." });
             }
 
             return Ok(service);
@@ -66,7 +67,7 @@ namespace EventPlannerAPI.Controllers
 
             if (!result)
             {
-                return NotFound("Service not found.");
+                return NotFound(new Response { Message = "Service not found." });
             }
 
             return NoContent();
@@ -80,7 +81,7 @@ namespace EventPlannerAPI.Controllers
 
             if (services == null || !services.Any())
             {
-                return NotFound("No services available.");
+                return NotFound(new Response { Message = "No services available." });
             }
 
             return Ok(services);

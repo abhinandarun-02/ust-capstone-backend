@@ -1,4 +1,5 @@
 using EventPlannerAPI.DTOs;
+using EventPlannerAPI.Models;
 using EventPlannerAPI.Repositories.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,16 +25,16 @@ namespace EventPlannerAPI.Controllers
         {
             if (string.IsNullOrEmpty(venueDTO.Name))
             {
-                return BadRequest("Venue name cannot be empty");
+                return BadRequest(new Response{Message = "Venue name cannot be empty"});
             }
 
             var success = await _venueRepository.AddVenueAsync(venueDTO);
             if (!success)
             {
-                return BadRequest("An error occurred. Couldn't add the venue.");
+                return BadRequest(new Response{Message = "An error occurred. Couldn't add the venue."});
             }
 
-            return Ok($"{venueDTO.Name} was successfully added to the database.");
+            return Ok(new Response{Message = $"{venueDTO.Name} was successfully added to the database."});
         }
 
         // GET: api/Venues/{id}
@@ -43,7 +44,7 @@ namespace EventPlannerAPI.Controllers
             var venue = await _venueRepository.GetVenueByIdAsync(id);
             if (venue == null)
             {
-                return NotFound($"Venue with id {id} was not found");
+                return NotFound(new Response{Message = $"Venue with id {id} was not found"});
             }
 
             return Ok(venue);
@@ -56,7 +57,7 @@ namespace EventPlannerAPI.Controllers
             var venues = await _venueRepository.GetAllVenuesAsync();
             if (!venues.Any())
             {
-                return NotFound("No venues available");
+                return NotFound(new Response{Message = "No venues available"});
             }
 
             return Ok(venues);
@@ -70,10 +71,10 @@ namespace EventPlannerAPI.Controllers
             var success = await _venueRepository.DeleteVenueAsync(id);
             if (!success)
             {
-                return NotFound($"Venue with id {id} could not be found or deleted.");
+                return NotFound(new Response{Message = $"Venue with id {id} could not be found or deleted."});
             }
 
-            return Ok($"Venue with id {id} was successfully deleted.");
+            return Ok(new Response{Message = $"Venue with id {id} was successfully deleted."});
         }
 
         // PUT: api/Venues/{id}
@@ -83,16 +84,16 @@ namespace EventPlannerAPI.Controllers
         {
             if (string.IsNullOrEmpty(venueDTO.Name))
             {
-                return BadRequest("Venue name cannot be empty");
+                return BadRequest(new Response{Message = "Venue name cannot be empty"});
             }
 
             var success = await _venueRepository.UpdateVenueAsync(id, venueDTO);
             if (!success)
             {
-                return NotFound($"Venue with id {id} could not or updated.");
+                return NotFound(new Response{Message = $"Venue with id {id} could not or updated."});
             }
 
-            return Ok($"Venue with id {id} was successfully updated.");
+            return Ok(new Response{Message = $"Venue with id {id} was successfully updated."});
         }
     }
 }

@@ -1,7 +1,7 @@
 using EventPlannerAPI.DTOs;
 using EventPlannerAPI.Repositories.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+using EventPlannerAPI.Models;
 
 namespace EventPlannerAPI.Controllers
 {
@@ -22,16 +22,16 @@ namespace EventPlannerAPI.Controllers
         {
             if (string.IsNullOrEmpty(expenseDTO.Name) || expenseDTO.Cost <= 0)
             {
-                return BadRequest("Invalid expense data provided.");
+                return BadRequest(new Response{Message = "Invalid expense data provided."});
             }
 
             var success = await _expenseRepository.AddExpense(expenseDTO);
             if (!success)
             {
-                return BadRequest("An error occurred. Couldn't add the expense.");
+                return BadRequest(new Response{Message = "An error occurred. Couldn't add the expense."});
             }
 
-            return Ok($"Expense '{expenseDTO.Name}' was successfully added.");
+            return Ok(new Response{Message = $"Expense '{expenseDTO.Name}' was successfully added."});
         }
 
         // GET: api/Expenses/{id}
@@ -41,7 +41,7 @@ namespace EventPlannerAPI.Controllers
             var expense = await _expenseRepository.GetExpenseById(id);
             if (expense == null)
             {
-                return NotFound($"Expense with id {id} was not found.");
+                return NotFound(new Response{Message = $"Expense with id {id} was not found."});
             }
 
             return Ok(expense);
@@ -54,7 +54,7 @@ namespace EventPlannerAPI.Controllers
             var expenses = await _expenseRepository.GetAllExpenses();
             if (!expenses.Any())
             {
-                return NotFound("No expenses available.");
+                return NotFound(new Response{Message = "No expenses available."});
             }
 
             return Ok(expenses);
@@ -67,10 +67,10 @@ namespace EventPlannerAPI.Controllers
             var success = await _expenseRepository.DeleteExpense(id);
             if (!success)
             {
-                return NotFound($"Expense with id {id} could not be found or deleted.");
+                return NotFound(new Response{Message = $"Expense with id {id} could not be found or deleted."});
             }
 
-            return Ok($"Expense with id {id} was successfully deleted.");
+            return Ok(new Response{Message = $"Expense with id {id} was successfully deleted."});
         }
 
         // PUT: api/Expenses/{id}
@@ -79,16 +79,16 @@ namespace EventPlannerAPI.Controllers
         {
             if (string.IsNullOrEmpty(expenseDTO.Name) || expenseDTO.Cost <= 0)
             {
-                return BadRequest("Invalid expense data provided.");
+                return BadRequest(new Response{Message = "Invalid expense data provided."});
             }
 
             var success = await _expenseRepository.UpdateExpense(id, expenseDTO);
             if (!success)
             {
-                return NotFound($"Expense with id {id} could not be found or updated.");
+                return NotFound(new Response{Message = $"Expense with id {id} could not be found or updated."});
             }
 
-            return Ok($"Expense with id {id} was successfully updated.");
+            return Ok(new Response{Message = $"Expense with id {id} was successfully updated."});
         }
     }
 }

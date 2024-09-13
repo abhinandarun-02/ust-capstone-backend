@@ -1,4 +1,5 @@
 using EventPlannerAPI.DTOs;
+using EventPlannerAPI.Models;
 using EventPlannerAPI.Repositories.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,16 +25,17 @@ namespace EventPlannerAPI.Controllers
         {
             if (string.IsNullOrEmpty(cateringDTO.Name))
             {
-                return BadRequest("Catering name cannot be empty");
+                
+                return BadRequest(new Response{Message="Catering name cannot be empty"});
             }
 
             var success = await _cateringRepository.AddCateringAsync(cateringDTO);
             if (!success)
             {
-                return BadRequest("An error occurred. Couldn't add the catering.");
+                return BadRequest(new Response{Message = "An error occurred. Couldn't add the catering."});
             }
 
-            return Ok($"{cateringDTO.Name} was successfully added to the database.");
+            return Ok(new Response{Message = $"{cateringDTO.Name} was successfully added to the database."});
         }
 
         // GET: api/Caterings/{id}
@@ -43,7 +45,7 @@ namespace EventPlannerAPI.Controllers
             var catering = await _cateringRepository.GetCateringByIdAsync(id);
             if (catering == null)
             {
-                return NotFound($"Catering with id {id} was not found");
+                return NotFound(new Response{Message = $"Catering with id {id} was not found"});
             }
 
             return Ok(catering);
@@ -56,7 +58,7 @@ namespace EventPlannerAPI.Controllers
             var caterings = await _cateringRepository.GetAllCateringsAsync();
             if (!caterings.Any())
             {
-                return NotFound("No caterings available");
+                return NotFound(new Response{Message = "No caterings available"});
             }
 
             return Ok(caterings);
@@ -70,29 +72,29 @@ namespace EventPlannerAPI.Controllers
             var success = await _cateringRepository.DeleteCateringAsync(id);
             if (!success)
             {
-                return NotFound($"Catering with id {id} could not be found or deleted.");
+                return NotFound(new Response{Message = $"Catering with id {id} could not be found or deleted."});
             }
 
-            return Ok($"Catering with id {id} was successfully deleted.");
+            return Ok(new Response{Message= $"Catering with id {id} was successfully deleted."});
         }
 
         // PUT: api/Caterings/{id}
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCatering(int id, [FromBody] CateringDTO cateringDTO)
-        {
+        { 
             if (string.IsNullOrEmpty(cateringDTO.Name))
             {
-                return BadRequest("Catering name cannot be empty");
+                return BadRequest(new Response{Message = "Catering name cannot be empty"});
             }
 
             var success = await _cateringRepository.UpdateCateringAsync(id, cateringDTO);
             if (!success)
             {
-                return NotFound($"Catering with id {id} could not be found or updated.");
+                return NotFound(new Response{Message = $"Catering with id {id} could not be found or updated."});
             }
 
-            return Ok($"Catering with id {id} was successfully updated.");
+            return Ok(new Response{Message = $"Catering with id {id} was successfully updated."});
         }
     }
 }
