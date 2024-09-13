@@ -81,5 +81,16 @@ namespace EventPlannerAPI.Repositories.Services
 
             return true;
         }
+        public async Task<WeddingDTO?> GetWeddingByUsernameAsync(string username)
+        {
+            var wedding = await _context.Weddings.FirstOrDefaultAsync(w => w.PlannerUsername == username);
+            return wedding == null ? null : _mapper.Map<WeddingDTO>(wedding);
+        }
+
+        public async Task<WeddingDTO?> GetWeddingByPlannerIdAsync(string plannerId)
+        {
+            var wedding = await _context.Weddings.FirstOrDefaultAsync(w => w.PlannerId == plannerId);
+            return wedding == null ? null : _mapper.Map<WeddingDTO>(wedding);
+        }
     }
 }

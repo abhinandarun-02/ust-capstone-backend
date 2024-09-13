@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.Configuration.Annotations;
 using EventPlannerAPI.DTOs;
 using EventPlannerAPI.Models;
 using EventPlannerAPI.Repositories.Services;
@@ -95,6 +91,29 @@ namespace EventPlannerAPI.Controllers
                 return NotFound();
             }
             return Ok(new Response{Message = "Updation successful."});
+        }
+
+        [HttpGet("user/{username}")]
+        public async Task<IActionResult>GetWeddingByUsernameAsync(string username) {
+            var wedding = await _weddingRepository.GetWeddingByUsernameAsync(username);
+            if (wedding == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(wedding);
+        }
+
+
+        [HttpGet("plannerId/{id}")]
+        public async Task<IActionResult>GetWeddingByPlannerIdAsync(string id) {
+            var wedding = await _weddingRepository.GetWeddingByPlannerIdAsync(id);
+            if (wedding == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(wedding);
         }
     }
 }
