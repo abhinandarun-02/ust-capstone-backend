@@ -89,7 +89,7 @@ namespace EventPlannerAPI.Repositories.Services
 
         public async Task<WeddingDTO?> GetWeddingByPlannerIdAsync(string plannerId)
         {
-            var wedding = await _context.Weddings.FirstOrDefaultAsync(w => w.PlannerId == plannerId);
+            var wedding = await _context.Weddings.Include(w => w.Services).FirstOrDefaultAsync(w => w.PlannerId == plannerId);
             return wedding == null ? null : _mapper.Map<WeddingDTO>(wedding);
         }
     }
