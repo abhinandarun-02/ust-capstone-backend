@@ -24,26 +24,27 @@ namespace EventPlannerAPI.Repositories
         public async Task<ServiceDTO?> AddServiceAsync(ServiceDTO serviceDto)
         {
             var wedding = await _context.Weddings.FirstOrDefaultAsync(w => w.Id == serviceDto.WeddingId);
+
             if (wedding == null)
             {
-                return null; 
+                return null;
             }
 
-            var catering = serviceDto.CateringName != null 
-                ? await _context.Caterings.FirstOrDefaultAsync(c => c.Name == serviceDto.CateringName) 
+            var catering = serviceDto.CateringId != null
+                ? await _context.Caterings.FirstOrDefaultAsync(c => c.Id == serviceDto.CateringId)
                 : null;
-            var photography = serviceDto.PhotographyName != null 
-                ? await _context.Photographies.FirstOrDefaultAsync(p => p.Name == serviceDto.PhotographyName) 
+            var photography = serviceDto.PhotographyId != null
+                ? await _context.Photographies.FirstOrDefaultAsync(p => p.Id == serviceDto.PhotographyId)
                 : null;
-            var venue = serviceDto.VenueName != null 
-                ? await _context.Venues.FirstOrDefaultAsync(v => v.Name == serviceDto.VenueName) 
+            var venue = serviceDto.VenueId != null
+                ? await _context.Venues.FirstOrDefaultAsync(v => v.Id == serviceDto.VenueId)
                 : null;
 
-            if ((serviceDto.CateringName != null && catering == null) ||
-                (serviceDto.PhotographyName != null && photography == null) ||
-                (serviceDto.VenueName != null && venue == null))
+            if ((serviceDto.CateringId != null && catering == null) ||
+                (serviceDto.PhotographyId != null && photography == null) ||
+                (serviceDto.VenueId != null && venue == null))
             {
-                return null; 
+                return null;
             }
 
             var service = _mapper.Map<Service>(serviceDto);
@@ -52,13 +53,13 @@ namespace EventPlannerAPI.Repositories
             service.Photography = photography;
             service.Venue = venue;
 
-            await _context.Services.AddAsync(service);    
-            Expense expense = new Expense 
+            await _context.Services.AddAsync(service);
+            Expense expense = new Expense
             {
                 WeddingId = service.WeddingId,
                 Category = service.Type,
-                Cost = service.Catering?.Price??service.Photography?.Price??service.Venue?.Price??0,
-                Name = service.Catering?.Name??service.Photography?.Name??service.Venue?.Name??""
+                Cost = service.Catering?.Price ?? service.Photography?.Price ?? service.Venue?.Price ?? 0,
+                Name = service.Catering?.Name ?? service.Photography?.Name ?? service.Venue?.Name ?? ""
             };
             await _context.Expenses.AddAsync(expense);
             await _context.SaveChangesAsync();

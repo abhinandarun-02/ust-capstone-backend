@@ -28,7 +28,7 @@ namespace EventPlannerAPI.Controllers
                 return NotFound(new Response { Message = "Wedding or one of the services not found." });
             }
 
-            return Ok(new Response { Message = $"Services for {serviceDto.WeddingName} have been registered." });
+            return Ok(new Response { Message = $"Services have been registered." });
         }
 
         // READ: Fetch all services for a particular wedding
