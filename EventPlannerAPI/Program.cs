@@ -21,6 +21,7 @@ internal class Program
         builder.Services.AddScoped<IPhotographyRepository, PhotographyRepository>();
         builder.Services.AddScoped<IVenueRepository, VenueRepository>();
         builder.Services.AddScoped<ICateringRepository, CateringRepository>();
+        builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 
         builder.Services.AddDbContext<EventPlannerDbContext>(options =>
         {
