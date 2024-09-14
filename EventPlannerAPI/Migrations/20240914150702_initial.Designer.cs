@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventPlannerAPI.Migrations
 {
     [DbContext(typeof(EventPlannerDbContext))]
-    [Migration("20240912063619_AdditionalExpenseFields")]
-    partial class AdditionalExpenseFields
+    [Migration("20240914150702_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,9 @@ namespace EventPlannerAPI.Migrations
 
                     b.Property<string>("Contact")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Image")
                         .HasColumnType("text");
 
                     b.Property<string>("Location")
@@ -73,6 +76,7 @@ namespace EventPlannerAPI.Migrations
                             Id = 1,
                             About = "High-end catering service with gourmet options.",
                             Contact = "info@gourmetdelights.com",
+                            Image = "/catering-1.webp",
                             Location = "New York",
                             MenuDetails = "Italian, Mexican, and American cuisine",
                             Name = "Gourmet Delights",
@@ -85,6 +89,7 @@ namespace EventPlannerAPI.Migrations
                             Id = 2,
                             About = "Specializes in vegetarian and vegan meals.",
                             Contact = "contact@greenbites.com",
+                            Image = "/catering-2.webp",
                             Location = "San Francisco",
                             MenuDetails = "Vegan salads, wraps, and smoothies",
                             Name = "Green Bites",
@@ -97,6 +102,7 @@ namespace EventPlannerAPI.Migrations
                             Id = 3,
                             About = "Classic catering with a wide range of dishes.",
                             Contact = "hello@classicfeasts.com",
+                            Image = "/catering-3.webp",
                             Location = "Chicago",
                             MenuDetails = "American BBQ, salads, and desserts",
                             Name = "Classic Feasts",
@@ -109,12 +115,39 @@ namespace EventPlannerAPI.Migrations
                             Id = 4,
                             About = "Elegant catering for sophisticated events.",
                             Contact = "info@elegantevents.com",
+                            Image = "/catering-4.webp",
                             Location = "Los Angeles",
                             MenuDetails = "French cuisine and gourmet options",
                             Name = "Elegant Events",
                             Price = 2000.00m,
                             Rating = 4.9m,
                             Tier = "Luxury"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            About = "Authentic Indian catering with a variety of dishes.",
+                            Contact = "info@test.com",
+                            Image = "/catering-5.webp",
+                            Location = "Miami",
+                            MenuDetails = "Indian curries, biryanis, and desserts",
+                            Name = "Taste of India",
+                            Price = 1600.00m,
+                            Rating = 4.7m,
+                            Tier = "Premium"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            About = "Fresh sushi catering for sushi lovers.",
+                            Contact = "info@test.com",
+                            Image = "/catering-6.webp",
+                            Location = "New York",
+                            MenuDetails = "Sushi rolls, sashimi, and nigiri",
+                            Name = "Sushi Delight",
+                            Price = 1400.00m,
+                            Rating = 4.5m,
+                            Tier = "Standard"
                         });
                 });
 
@@ -172,6 +205,9 @@ namespace EventPlannerAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("text");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("text");
@@ -204,6 +240,7 @@ namespace EventPlannerAPI.Migrations
                             Id = 1,
                             About = "Specializing in wedding photography with a magical touch.",
                             Contact = "contact@photomagic.com",
+                            Image = "/photography-1.webp",
                             Location = "Los Angeles",
                             Name = "PhotoMagic Studios",
                             PackageDetails = "Full-day coverage, digital album, and prints",
@@ -216,6 +253,7 @@ namespace EventPlannerAPI.Migrations
                             Id = 2,
                             About = "Capturing the essence of every event.",
                             Contact = "info@eventsnapshots.com",
+                            Image = "/photography-2.webp",
                             Location = "New York",
                             Name = "Event Snapshots",
                             PackageDetails = "Half-day coverage, digital photos",
@@ -228,6 +266,7 @@ namespace EventPlannerAPI.Migrations
                             Id = 3,
                             About = "High-quality photography with creative styles.",
                             Contact = "contact@memorablemoments.com",
+                            Image = "/photography-3.webp",
                             Location = "Miami",
                             Name = "Memorable Moments",
                             PackageDetails = "Full-day coverage, digital and printed photos",
@@ -240,11 +279,38 @@ namespace EventPlannerAPI.Migrations
                             Id = 4,
                             About = "Affordable and reliable photography services.",
                             Contact = "info@captureall.com",
+                            Image = "/photography-4.webp",
                             Location = "San Francisco",
                             Name = "Capture All",
                             PackageDetails = "Basic coverage with digital photos",
                             Price = 1500.00m,
                             Rating = 4.5m,
+                            Tier = "Standard"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            About = "Creating dreamy and romantic photos for your special day.",
+                            Contact = "info@test.com",
+                            Image = "/photography-5.webp",
+                            Location = "Chicago",
+                            Name = "Dreamy Shots",
+                            PackageDetails = "Full-day coverage, digital album, prints",
+                            Price = 2000.00m,
+                            Rating = 4.6m,
+                            Tier = "Premium"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            About = "Capturing candid moments with a creative eye.",
+                            Contact = "info@test.com",
+                            Image = "/photography-6.webp",
+                            Location = "Los Angeles",
+                            Name = "Candid Clicks",
+                            PackageDetails = "Half-day coverage, digital photos",
+                            Price = 1700.00m,
+                            Rating = 4.7m,
                             Tier = "Standard"
                         });
                 });
@@ -309,6 +375,9 @@ namespace EventPlannerAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("text");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("text");
@@ -339,6 +408,7 @@ namespace EventPlannerAPI.Migrations
                             Address = "123 Grand Ave, New York, NY",
                             Capacity = 500,
                             Contact = "contact@grandballroom.com",
+                            Image = "/venue-1.webp",
                             Location = "New York",
                             Name = "Grand Ballroom",
                             Price = 8000.00m,
@@ -352,6 +422,7 @@ namespace EventPlannerAPI.Migrations
                             Address = "456 Beach Blvd, Miami, FL",
                             Capacity = 300,
                             Contact = "info@oceanviewresort.com",
+                            Image = "/venue-2.webp",
                             Location = "Miami",
                             Name = "Ocean View Resort",
                             Price = 6000.00m,
@@ -365,6 +436,7 @@ namespace EventPlannerAPI.Migrations
                             Address = "789 Garden St, San Francisco, CA",
                             Capacity = 250,
                             Contact = "contact@elegantgardens.com",
+                            Image = "/venue-3.webp",
                             Location = "San Francisco",
                             Name = "Elegant Gardens",
                             Price = 5500.00m,
@@ -378,11 +450,40 @@ namespace EventPlannerAPI.Migrations
                             Address = "101 Loft Lane, Chicago, IL",
                             Capacity = 150,
                             Contact = "info@modernloft.com",
+                            Image = "/venue-4.webp",
                             Location = "Chicago",
                             Name = "Modern Loft",
                             Price = 4000.00m,
                             Rating = 4.6m,
                             Tier = "Standard"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            About = "A charming barn venue with a rustic ambiance.",
+                            Address = "234 Barn Rd, Los Angeles, CA",
+                            Capacity = 100,
+                            Contact = "info@test.com",
+                            Image = "/venue-5.webp",
+                            Location = "Los Angeles",
+                            Name = "Rustic Barn",
+                            Price = 3500.00m,
+                            Rating = 4.5m,
+                            Tier = "Standard"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            About = "A serene mountain venue with breathtaking views.",
+                            Address = "345 Mountain Rd, Denver, CO",
+                            Capacity = 200,
+                            Contact = "info@test.com",
+                            Image = "/venue-6.webp",
+                            Location = "Denver",
+                            Name = "Mountain Retreat",
+                            Price = 7000.00m,
+                            Rating = 4.8m,
+                            Tier = "Luxury"
                         });
                 });
 
