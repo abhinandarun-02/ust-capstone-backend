@@ -67,7 +67,7 @@ namespace AuthAPI.Repositories
             if (userExists != null)
                 return new Response
                 {
-                    StatusCode = StatusCodes.NotFound,
+                    StatusCode = StatusCodes.BadRequest,
                     Message = StatusMessages.UserAlreadyExistsMessage
                 };
 
@@ -85,7 +85,7 @@ namespace AuthAPI.Repositories
             if (!result.Succeeded)
                 return new Response
                 {
-                    StatusCode = StatusCodes.NotFound,
+                    StatusCode = StatusCodes.BadRequest,
                     Message = StatusMessages.UserCreationFailedMessage
                 };
 
@@ -112,7 +112,7 @@ namespace AuthAPI.Repositories
             if (userExists != null)
                 return new Response
                 {
-                    StatusCode = StatusCodes.NotFound,
+                    StatusCode = StatusCodes.BadRequest,
                     Message = StatusMessages.UserAlreadyExistsMessage
                 };
 
@@ -130,7 +130,7 @@ namespace AuthAPI.Repositories
             if (!result.Succeeded)
                 return new Response
                 {
-                    StatusCode = StatusCodes.NotFound,
+                    StatusCode = StatusCodes.BadRequest,
                     Message = StatusMessages.UserCreationFailedMessage
                 };
 
@@ -162,7 +162,7 @@ namespace AuthAPI.Repositories
             {
                 return new Response
                 {
-                    StatusCode = StatusCodes.NotFound,
+                    StatusCode = StatusCodes.BadRequest,
                     Message = "Failed to assign Planner role"
                 };
             }
