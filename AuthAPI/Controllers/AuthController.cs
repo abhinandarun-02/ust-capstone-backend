@@ -2,6 +2,7 @@
 using AuthAPI.DTO;
 using AuthAPI.Models;
 using AuthAPI.Repositories.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -42,11 +43,29 @@ namespace AuthAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+
         [HttpPost("register-admin")]
         public async Task<IActionResult> RegisterAdminAsync([FromBody] RegisterDTO admin)
         {
             var response = await _authRepository.RegisterAdminAsync(admin);
             return StatusCode(response.StatusCode, response);
+        }
+
+        [Authorize]
+        [HttpPost("complete-onboarding")]
+        public async Task<IActionResult> CompleteOnboarding([FromBody] CompleteOnboardingDTO model)
+        {
+            var response = await _authRepository.CompleteOnboardingAsync(model.UserId);
+
+            if (response == null)
+            {
+                return BadRequest(new Response { StatusCode = StatusCodes.BadRequest, Message = StatusMessages.ErrorStatus });
+            }
+            if (response.StatusCode == StatusCodes.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
     }

@@ -10,6 +10,7 @@ namespace AuthAPI.Repositories.Services
         Task<Response> RegisterAsync(RegisterDTO registerModel);
         Task<Response> RegisterAdminAsync(RegisterDTO registerModel);
         Task<LoginResponseDTO> LoginAsync(LoginDTO loginModel);
+        Task<CompleteOnboardingResponseDTO> CompleteOnboardingAsync(string userId);
 
     }
 }

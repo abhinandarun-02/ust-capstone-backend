@@ -38,6 +38,7 @@ namespace AuthAPI.Repositories
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim("isNewUser", user.IsNewUser.ToString()),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
 
@@ -187,5 +188,60 @@ namespace AuthAPI.Repositories
             );
             return token;
         }
+
+        public async Task<CompleteOnboardingResponseDTO> CompleteOnboardingAsync(string userId)
+        {
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return new CompleteOnboardingResponseDTO
+                {
+                    StatusCode = StatusCodes.NotFound,
+                    Message = "User not found."
+                };
+            }
+
+            user.IsNewUser = false;
+            var result = await _userManager.UpdateAsync(user);
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+                var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim("isNewUser", user.IsNewUser.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                };
+
+                // Add role claims
+                foreach (var userRole in userRoles)
+                {
+                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                }
+
+                // Generate token
+                var token = new JwtSecurityTokenHandler().WriteToken(GetToken(authClaims));
+
+
+            if (!result.Succeeded)
+            {
+                return new CompleteOnboardingResponseDTO
+                {
+                    StatusCode = StatusCodes.BadRequest,
+                    Message = "Failed to update user status."
+                };
+            }
+
+            return new CompleteOnboardingResponseDTO
+            {
+                StatusCode = StatusCodes.Success,
+                Message = "User onboarding completed successfully.",
+                Token = token
+            };
+
+
+        }
     }
-}
+} 
